@@ -1,0 +1,2 @@
+net.itfeng.compileannotation.demo.processor.TestAnnotation1Processor
+net.itfeng.compileannotation.demo.processor.TestAroundAnnotationProcessor
