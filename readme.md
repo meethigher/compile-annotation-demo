@@ -2,7 +2,7 @@
 ## 核心功能说明
 本demo项目使用编译时注解实现了简单的环绕切面效果。
 ## 代码结构
-｜------ compile-annotation-processor 自定义运行时注解及注解解释器，必须是独立的jar
+｜------ compile-annotation-processor 自定义运行时注解及注解解释器，必须是独立的jar<p>
 ｜------ compile-annotation-run 使用自定义运行时注解的demo项目
 
 ## 注意事项
