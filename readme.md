@@ -7,8 +7,6 @@
 
 ## 注意事项
 1. 自定义的注解和注解解释器必须是独立的模块，不能和使用注解的代码在一个模块
-1. 使用自定义注解的模块，必须在resources/META-INF/services目录中定义文件
-javax.annotation.processing.Processor，其内容为自定义注解的解释器文件名，详情参见源码。
 1. 自定义注解所在的模块pom文件中必须引入以下内容，其中systemPath指定了本地tools.jar的位置
 ```
    <dependency>
