@@ -1,5 +1,8 @@
 package net.itfeng.compileannotation.demo.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 这里编写处理注解的业务代码
  *
@@ -13,5 +16,9 @@ public class AnnotationUtil {
     public static String after(String value){
         System.out.println("执行after方法，这是执行after方法输出的入参："+value);
         return "这是after方法的返回值";
+    }
+
+    public static List newArrayList(){
+        return new ArrayList();
     }
 }
