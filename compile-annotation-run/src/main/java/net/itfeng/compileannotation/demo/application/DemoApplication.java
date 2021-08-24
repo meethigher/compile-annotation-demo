@@ -25,7 +25,6 @@ public class DemoApplication {
 
     @TestParamsProcessAnnotation(value = "Hello compile TestParamsProcessAnnotation!",indexs = {1,2})
     public void testParamsProcessAnnotation(String param1,String param2,String param3,int param4){
-        Object[] params = new Object[]{param1,param2,param3,param4};
         System.out.println("AroundAnnotation 123456");
     }
 }

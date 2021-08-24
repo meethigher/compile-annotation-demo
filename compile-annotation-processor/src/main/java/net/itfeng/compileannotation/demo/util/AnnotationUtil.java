@@ -1,6 +1,7 @@
 package net.itfeng.compileannotation.demo.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,7 +19,12 @@ public class AnnotationUtil {
         return "这是after方法的返回值";
     }
 
-    public static List newArrayList(){
-        return new ArrayList();
+    /**
+     * 测试接收数组参数的方法，通过注解将本方法写入到class中
+     * @param objects
+     * @return
+     */
+    public static List newArrayList(Object... objects){
+        return Arrays.asList(objects);
     }
 }

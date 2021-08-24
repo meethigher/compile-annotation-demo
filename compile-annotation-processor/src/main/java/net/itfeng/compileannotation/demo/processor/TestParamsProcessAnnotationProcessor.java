@@ -68,6 +68,10 @@ public class TestParamsProcessAnnotationProcessor extends AbstractProcessor {
                 List addCodes = makeAddList(elementUtils, "_trace_before_params", varSymbols);
                 codeList = codeList.appendList(addCodes);
             }
+            // 新增一行将方法参数以数组的形式传递到需要织入的方法中
+            if(varSymbols!=null && !varSymbols.isEmpty()) {
+                codeList = codeList.append(makeArrayParamMethodInvoke(elementUtils, makeParamsList(varSymbols)));
+            }
             // 创建最后执行的代码
             JCTree.JCStatement afterCode = makeAfterCode(elementUtils);
             jcMethodDecl.body = treeMaker.Block(0,
@@ -110,6 +114,22 @@ public class TestParamsProcessAnnotationProcessor extends AbstractProcessor {
         );
     }
 
+    /**
+     * 参数变量名列表
+     * @param varSymbols
+     * @return
+     */
+    private List<JCTree.JCExpression> makeParamsList(List<Symbol.VarSymbol> varSymbols){
+        List<JCTree.JCExpression> list = List.nil();
+        for(Symbol.VarSymbol varSymbol:varSymbols){
+            list = list.append(treeMaker.Ident(varSymbol.name));
+        }
+        return list;
+
+    }
+
+
+
     private JCTree.JCStatement makeAfterCode(JavacElements elementUtils) {
         return treeMaker.Exec(
                 treeMaker.Apply(
@@ -125,6 +145,34 @@ public class TestParamsProcessAnnotationProcessor extends AbstractProcessor {
                         ),
                         //使用beforeCode代码中定义的变量名，
                         List.of(treeMaker.Ident(getNameFromString("_trace_before_result")))
+                )
+        );
+    }
+
+    /**
+     * 生成代码 AnnotationUtil.newArrayList(new Object[]{param1,param2,param3,param4})
+     * @param elementUtils
+     * @param values
+     * @return
+     */
+    private JCTree.JCStatement makeArrayParamMethodInvoke(JavacElements elementUtils, List<JCTree.JCExpression> values) {
+        return treeMaker.Exec(
+                treeMaker.Apply(
+                        List.<JCTree.JCExpression>nil(),
+                        treeMaker.Select(
+                                treeMaker.Select(
+                                        treeMaker.Ident(
+                                                elementUtils.getName("net.itfeng.compileannotation.demo.util")
+                                        ),
+                                        elementUtils.getName("AnnotationUtil")
+                                ),
+                                elementUtils.getName("newArrayList")
+                        ),
+                        //使用beforeCode代码中定义的变量名，
+                        List.of(treeMaker.NewArray(
+                                memberAccess("java.lang.Object"),
+                                List.nil(),values
+                        ))
                 )
         );
     }
@@ -174,6 +222,19 @@ public class TestParamsProcessAnnotationProcessor extends AbstractProcessor {
                 )
                 ).getExpression()
         );
+    }
+
+    /**
+     * 生成 new Object[]{param1,param2,param3,param4},其中values是变量名的描述表达式
+     * @param elementUtils
+     * @param values
+     * @return
+     */
+    private JCTree.JCStatement makeNewArrayCode(JavacElements elementUtils, List<JCTree.JCExpression> values) {
+        return treeMaker.Exec(treeMaker.NewArray(
+                        memberAccess("java.lang.Object"),
+                        List.nil(),values
+                ));
     }
 
 
