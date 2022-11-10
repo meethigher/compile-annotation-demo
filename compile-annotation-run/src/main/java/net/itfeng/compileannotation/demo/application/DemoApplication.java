@@ -15,6 +15,7 @@ public class DemoApplication {
     }
     @TestAnnotation1("Hello compile Annotation!")
     public void testAnnotation1(){
+        String a;
         System.out.println("Annotation 123456");
     }
 

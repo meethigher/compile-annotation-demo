@@ -1,3 +1,11 @@
+
+本项目整合自两个项目，保留原作者信息
+
+* [CompileAnnotationDemo: 编译时注解 编译时注解实现环绕切面效果](https://gitee.com/itafeng/compile-annotation-demo)
+
+* [AbstractProcessor: 利用注解动态生成代码_ZhangJianIsAStark的博客-CSDN博客_abstractprocessor](https://blog.csdn.net/Gaugamela/article/details/79694302)
+
+
 # 编译时注解Demo
 ## 核心功能说明
 本demo项目使用编译时注解实现了简单的环绕切面效果。
@@ -16,6 +24,6 @@ javax.annotation.processing.Processor，其内容为自定义注解的解释器�
    <artifactId>tools</artifactId>
    <version>1.8</version>
    <scope>system</scope>
-   <systemPath>${java.home}/lib/tools.jar</systemPath>
+   <systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
    </dependency>
 ```

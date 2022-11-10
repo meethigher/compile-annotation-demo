@@ -32,12 +32,12 @@ public class TestAnnotation1Processor extends AbstractProcessor {
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
-        super.init( processingEnv );
-        trees = Trees.instance( processingEnv );
+        super.init(processingEnv);
+        trees = Trees.instance(processingEnv);
         context = ((JavacProcessingEnvironment)
                 processingEnv).getContext();
-        treeMaker = TreeMaker.instance( context );
-        names = Names.instance( context ).table;
+        treeMaker = TreeMaker.instance(context);
+        names = Names.instance(context).table;
     }
 
     @Override
@@ -50,9 +50,9 @@ public class TestAnnotation1Processor extends AbstractProcessor {
             JCTree.JCMethodDecl jcMethodDecl = (JCTree.JCMethodDecl) elementUtils.getTree(element);
             TestAnnotation1 annotation = element.getAnnotation(TestAnnotation1.class);
             String annotationValue = annotation.value();
-            System.out.println("TestAnnotation1注解Value:"+annotationValue);
+            System.out.println("TestAnnotation1注解Value:" + annotationValue);
             treeMaker.pos = jcMethodDecl.pos;
-            JCTree.JCStatement beforeCode = makeFirstPrintCode(elementUtils,annotationValue);
+            JCTree.JCStatement beforeCode = makeFirstPrintCode(elementUtils, annotationValue);
             jcMethodDecl.body = treeMaker.Block(0, List.of(
                     beforeCode, // 方法内容前面要加入的代码
                     jcMethodDecl.body // 原方法内容
@@ -65,27 +65,32 @@ public class TestAnnotation1Processor extends AbstractProcessor {
 
     /**
      * 在标有注解的方法首行输出一个打印注解中的value的代码
+     *
      * @param elementUtils
      * @param anotationValue
      * @return
      */
     private JCTree.JCStatement makeFirstPrintCode(JavacElements elementUtils, String anotationValue) {
-        return treeMaker.Exec(
-                treeMaker.Apply(
-                        List.<JCTree.JCExpression>nil(),
-                        treeMaker.Select(
-                                treeMaker.Select(
-                                        treeMaker.Ident(
-                                                elementUtils.getName("System")
-                                        ),
-                                        elementUtils.getName("out")
-                                ),
-                                elementUtils.getName("println")
-                        ),
-                        List.<JCTree.JCExpression>of(
-                                treeMaker.Literal(anotationValue)
-                        )
-                )
-        );
+//        return treeMaker.Exec(
+//                treeMaker.Apply(
+//                        List.<JCTree.JCExpression>nil(),
+//                        treeMaker.Select(
+//                                treeMaker.Select(
+//                                        treeMaker.Ident(
+//                                                elementUtils.getName("System")
+//                                        ),
+//                                        elementUtils.getName("out")
+//                                ),
+//                                elementUtils.getName("println")
+//                        ),
+//                        List.<JCTree.JCExpression>of(
+//                                treeMaker.Literal(anotationValue)
+//                        )
+//                )
+//        );
+        JCTree.JCFieldAccess select = treeMaker.Select(treeMaker.Ident(elementUtils.getName("System")), elementUtils.getName("out"));
+        JCTree.JCFieldAccess println = treeMaker.Select(select, elementUtils.getName("println"));
+        JCTree.JCMethodInvocation apply = treeMaker.Apply(List.<JCTree.JCExpression>nil(), println, List.of(treeMaker.Literal(anotationValue)));
+        return treeMaker.Exec(apply);
     }
 }
