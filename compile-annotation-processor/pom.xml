@@ -22,8 +22,16 @@
             <artifactId>tools</artifactId>
             <version>1.8</version>
             <scope>system</scope>
-            <systemPath>${java.home}/lib/tools.jar</systemPath>
+            <systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.auto.service/auto-service -->
+        <dependency>
+            <groupId>com.google.auto.service</groupId>
+            <artifactId>auto-service</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
     </dependencies>
 
 </project>

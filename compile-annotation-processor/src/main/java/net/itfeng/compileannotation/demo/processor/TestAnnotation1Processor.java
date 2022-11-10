@@ -42,6 +42,7 @@ public class TestAnnotation1Processor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        System.out.println("编译期注解执行拉");
         Context context = ((JavacProcessingEnvironment) processingEnv).getContext();
         JavacElements elementUtils = (JavacElements) processingEnv.getElementUtils();
         TreeMaker treeMaker = TreeMaker.instance(context);

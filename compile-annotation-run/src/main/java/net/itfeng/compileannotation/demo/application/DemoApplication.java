@@ -11,7 +11,7 @@ public class DemoApplication {
     public static void main(String[] args) {
         DemoApplication demo =new DemoApplication();
         demo.testAnnotation1();
-        demo.testAroundAnnotation();
+//        demo.testAroundAnnotation();
     }
     @TestAnnotation1("Hello compile Annotation!")
     public void testAnnotation1(){
